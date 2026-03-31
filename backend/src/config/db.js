@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 async function connectDatabase() {
-  const primaryUri = process.env.MONGODB_URI;
+  const primaryUri = process.env.MONGO_URI || process.env.MONGODB_URI;
   const fallbackUri = process.env.MONGODB_FALLBACK_URI;
   const isProduction = process.env.NODE_ENV === "production";
 
   if (!primaryUri && !fallbackUri) {
-    throw new Error("MONGODB_URI is not configured.");
+    throw new Error("MONGO_URI / MONGODB_URI is not configured.");
   }
 
   try {

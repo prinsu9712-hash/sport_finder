@@ -2,12 +2,14 @@ const User = require("../models/User");
 const { signToken } = require("../middleware/auth");
 
 function normalizeProfileInput(body) {
+  const requestedRole = body.role === "organizer" ? "organizer" : "user";
+
   return {
     name: body.name,
     email: body.email,
     password: body.password,
     gender: body.gender || "woman",
-    role: body.role || "user",
+    role: requestedRole,
     location: body.location,
     preferredGames: body.preferredGames || [],
     skillLevel: body.skillLevel || "beginner",

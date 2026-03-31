@@ -1,6 +1,6 @@
 "use client";
 
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useState } from "react";
 import { SectionTitle } from "@/components/section-title";
 
@@ -9,17 +9,40 @@ type Position = {
   lng: number;
 };
 
+function getOpenStreetMapEmbedUrl(position: Position | null) {
+  const center = position || { lat: 23.0225, lng: 72.5714 };
+  const delta = 0.03;
+  const left = center.lng - delta;
+  const right = center.lng + delta;
+  const top = center.lat + delta;
+  const bottom = center.lat - delta;
+
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${center.lat}%2C${center.lng}`;
+}
+
 export default function MapPage() {
   const [position, setPosition] = useState<Position | null>(null);
+  const [locationError, setLocationError] = useState("");
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: "playcircle-google-map",
+    googleMapsApiKey: apiKey
+  });
 
   function detectLocation() {
-    navigator.geolocation.getCurrentPosition((current) => {
-      setPosition({
-        lat: current.coords.latitude,
-        lng: current.coords.longitude
-      });
-    });
+    setLocationError("");
+
+    navigator.geolocation.getCurrentPosition(
+      (current) => {
+        setPosition({
+          lat: current.coords.latitude,
+          lng: current.coords.longitude
+        });
+      },
+      (error) => {
+        setLocationError(error.message || "Location permission was denied.");
+      }
+    );
   }
 
   return (
@@ -28,7 +51,7 @@ export default function MapPage() {
         <SectionTitle
           eyebrow="Map"
           title="Detect your location and visualize your play area"
-          description="Add your Google Maps key in the frontend env to render the live map."
+          description="The page uses Google Maps when the API key works and falls back to OpenStreetMap if Google blocks the domain."
         />
         <div className="action-row">
           <button className="button button-primary" onClick={detectLocation}>
@@ -40,11 +63,12 @@ export default function MapPage() {
               : "Location not detected yet"}
           </span>
         </div>
+        {locationError ? <p className="error-text">{locationError}</p> : null}
       </section>
 
       <section className="glass-card">
-        {apiKey ? (
-          <LoadScript googleMapsApiKey={apiKey}>
+        {apiKey && isLoaded && !loadError ? (
+          <>
             <GoogleMap
               center={position || { lat: 23.0225, lng: 72.5714 }}
               zoom={12}
@@ -52,11 +76,29 @@ export default function MapPage() {
             >
               {position ? <Marker position={position} /> : null}
             </GoogleMap>
-          </LoadScript>
+            <p className="helper-text">
+              Google Maps is active. If it fails after deployment, add your Vercel domain to the API key referrer list.
+            </p>
+          </>
         ) : (
-          <p className="helper-text">
-            Add `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` to `frontend/.env.local` to enable the map.
-          </p>
+          <div className="stack-md">
+            <iframe
+              title="PlayCircle map"
+              src={getOpenStreetMapEmbedUrl(position)}
+              style={{ border: 0, width: "100%", height: "420px", borderRadius: "24px" }}
+              loading="lazy"
+            />
+            <p className="helper-text">
+              {apiKey
+                ? "Google Maps could not load for this domain, so the page switched to OpenStreetMap."
+                : "Google Maps key is missing, so the page is using OpenStreetMap instead."}
+            </p>
+            {loadError ? (
+              <p className="error-text">
+                Check Google Cloud referrer restrictions for both `localhost:3000` and your Vercel domain.
+              </p>
+            ) : null}
+          </div>
         )}
       </section>
     </div>

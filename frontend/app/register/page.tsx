@@ -122,7 +122,6 @@ export default function RegisterPage() {
           >
             <option value="user">User</option>
             <option value="organizer">Organizer</option>
-            <option value="admin">Admin</option>
           </select>
         </div>
         <div className="split-two">

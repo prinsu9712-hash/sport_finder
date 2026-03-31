@@ -1,7 +1,18 @@
 const User = require("../models/User");
 
 async function registerUser(req, res) {
-  const user = await User.create(req.body);
+  const existingUser = await User.findOne({ email: req.body.email.toLowerCase() });
+
+  if (existingUser) {
+    return res.status(409).json({ message: "Email already registered" });
+  }
+
+  const user = await User.create({
+    ...req.body,
+    email: req.body.email.toLowerCase(),
+    role: req.body.role === "organizer" ? "organizer" : "user"
+  });
+
   res.status(201).json(user.toSafeObject());
 }
 

@@ -1,13 +1,19 @@
 "use client";
 
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SectionTitle } from "@/components/section-title";
 
 type Position = {
   lat: number;
   lng: number;
 };
+
+declare global {
+  interface Window {
+    gm_authFailure?: () => void;
+  }
+}
 
 function getOpenStreetMapEmbedUrl(position: Position | null) {
   const center = position || { lat: 23.0225, lng: 72.5714 };
@@ -23,11 +29,28 @@ function getOpenStreetMapEmbedUrl(position: Position | null) {
 export default function MapPage() {
   const [position, setPosition] = useState<Position | null>(null);
   const [locationError, setLocationError] = useState("");
+  const [googleAuthFailed, setGoogleAuthFailed] = useState(false);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
+
+  useEffect(() => {
+    const previousAuthFailureHandler = window.gm_authFailure;
+
+    window.gm_authFailure = () => {
+      setGoogleAuthFailed(true);
+      previousAuthFailureHandler?.();
+    };
+
+    return () => {
+      window.gm_authFailure = previousAuthFailureHandler;
+    };
+  }, []);
+
   const { isLoaded, loadError } = useJsApiLoader({
     id: "playcircle-google-map",
     googleMapsApiKey: apiKey
   });
+  const canUseGoogleMap =
+    Boolean(apiKey) && isLoaded && !loadError && !googleAuthFailed;
 
   function detectLocation() {
     setLocationError("");
@@ -67,7 +90,7 @@ export default function MapPage() {
       </section>
 
       <section className="glass-card">
-        {apiKey && isLoaded && !loadError ? (
+        {canUseGoogleMap ? (
           <>
             <GoogleMap
               center={position || { lat: 23.0225, lng: 72.5714 }}
@@ -76,26 +99,33 @@ export default function MapPage() {
             >
               {position ? <Marker position={position} /> : null}
             </GoogleMap>
-            <p className="helper-text">
-              Google Maps is active. If it fails after deployment, add your Vercel domain to the API key referrer list.
-            </p>
+            <p className="helper-text">Google Maps is active.</p>
           </>
         ) : (
           <div className="stack-md">
             <iframe
               title="PlayCircle map"
               src={getOpenStreetMapEmbedUrl(position)}
-              style={{ border: 0, width: "100%", height: "420px", borderRadius: "24px" }}
+              style={{
+                border: 0,
+                width: "100%",
+                height: "420px",
+                borderRadius: "24px"
+              }}
               loading="lazy"
             />
             <p className="helper-text">
-              {apiKey
+              {googleAuthFailed
+                ? "Google rejected the API key, referrer, billing, or Maps JavaScript API setting, so the page switched to OpenStreetMap."
+                : apiKey
                 ? "Google Maps could not load for this domain, so the page switched to OpenStreetMap."
                 : "Google Maps key is missing, so the page is using OpenStreetMap instead."}
             </p>
-            {loadError ? (
+            {loadError || googleAuthFailed ? (
               <p className="error-text">
-                Check Google Cloud referrer restrictions for both `localhost:3000` and your Vercel domain.
+                Check that Maps JavaScript API is enabled, billing is active,
+                and both `localhost:3000` and your Vercel domain are allowed
+                referrers.
               </p>
             ) : null}
           </div>

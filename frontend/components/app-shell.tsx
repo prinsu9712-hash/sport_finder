@@ -28,9 +28,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="ambient ambient-b" />
       <header className="topbar">
         <Link href="/" className="brand">
-          <span className="brand-mark">PM</span>
+          <span className="brand-mark">PC</span>
           <div>
-            <strong>PlayMate</strong>
+            <strong>PlayCircle</strong>
             <span>Find your game partner</span>
           </div>
         </Link>

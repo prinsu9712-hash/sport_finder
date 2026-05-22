@@ -1,237 +1,375 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { communities, metrics, playRequests, players } from "@/lib/mock-data";
-import { SectionTitle } from "@/components/section-title";
 
-const featurePillars = [
+const sports = [
   {
-    title: "Player Discovery",
-    copy: "Search by game type, locality, availability, and skill level instead of relying on scattered chat groups."
+    icon: "♟",
+    name: "Chess",
+    count: "312 active players",
+    badge: "Live"
   },
   {
-    title: "Quick Match Requests",
-    copy: "Send a lightweight request, get an accept or decline response, and confirm the session without heavy coordination."
+    icon: "🏸",
+    name: "Badminton",
+    count: "489 active players",
+    badge: "Hot"
   },
   {
-    title: "Community Circles",
-    copy: "Support clubhouses, society groups, and recurring neighborhood play sessions from the same product."
+    icon: "🎯",
+    name: "Carrom",
+    count: "218 active players",
+    badge: "New"
   }
 ];
 
-const productSections = [
-  "Women-first registration and login",
-  "Game-based profile creation",
-  "Availability and location preferences",
-  "Nearby partner discovery filters",
-  "Play requests and match history",
-  "Communities and organizer workflows",
-  "Admin reporting and category control"
+const stats = [
+  ["2.4K+", "Players Onboarded"],
+  ["318", "Active Play Requests"],
+  ["79%", "Match Success Rate"],
+  ["63%", "Repeat Sessions"]
+] as const;
+
+const features = [
+  {
+    icon: "🔍",
+    title: "Player Discovery",
+    copy: "Search by game type, locality, availability, and skill level — no more scattered chat groups or word-of-mouth searching."
+  },
+  {
+    icon: "⚡",
+    title: "Quick Match Requests",
+    copy: "Send a lightweight request, get an accept or decline response, and confirm the session without heavy coordination overhead."
+  },
+  {
+    icon: "🏘️",
+    title: "Community Circles",
+    copy: "Support clubhouses, society groups, and recurring neighborhood play sessions from a single organizer-owned product."
+  }
 ];
+
+const featuredPlayers = [
+  {
+    initials: "AM",
+    name: "Aanya Mehta",
+    level: "Intermediate",
+    levelClass: "intermediate",
+    location: "Satellite, Ahmedabad",
+    games: ["🏸 Badminton", "🏓 Table Tennis"],
+    time: "Mon, Wed, Fri · 6:30 PM"
+  },
+  {
+    initials: "NR",
+    name: "Nisha Rao",
+    level: "Advanced",
+    levelClass: "advanced",
+    location: "Whitefield, Bengaluru",
+    games: ["♟ Chess", "🃏 Cards"],
+    time: "Sat, Sun · 4:00 PM"
+  },
+  {
+    initials: "KS",
+    name: "Kavya Sethi",
+    level: "Beginner",
+    levelClass: "beginner",
+    location: "Dwarka, Delhi",
+    games: ["🎯 Carrom", "🏸 Badminton"],
+    time: "Tue, Thu · 7:00 PM"
+  }
+];
+
+const requests = [
+  {
+    game: "🏸 Badminton",
+    status: "Pending",
+    player: "Aanya Mehta",
+    time: "Friday · 6:30 PM",
+    venue: "Skyline Society Clubhouse"
+  },
+  {
+    game: "♟ Chess",
+    status: "Accepted",
+    player: "Nisha Rao",
+    time: "Sunday · 5:00 PM",
+    venue: "Community Reading Lounge"
+  },
+  {
+    game: "🎯 Carrom",
+    status: "Declined",
+    player: "Kavya Sethi",
+    time: "Tuesday · 7:30 PM",
+    venue: "Block C Indoor Hall"
+  }
+];
+
+const communities = [
+  {
+    icon: "🏸",
+    name: "Shuttle Sisters",
+    focus: "Badminton for working women",
+    location: "Ahmedabad West",
+    members: "64 members",
+    nextSession: "Wed · 7:00 PM"
+  },
+  {
+    icon: "♟",
+    name: "Weekend Mind Games",
+    focus: "Chess, cards & carrom",
+    location: "Bengaluru East",
+    members: "112 members",
+    nextSession: "Sat · 5:30 PM"
+  },
+  {
+    icon: "🏟️",
+    name: "Society Sports Circle",
+    focus: "Mixed indoor + outdoor sessions",
+    location: "Delhi South West",
+    members: "89 members",
+    nextSession: "Sun · 8:00 AM"
+  }
+];
+
+const futureItems = [
+  "🤖 AI Partner Recommendations",
+  "💬 In-App Messaging",
+  "🏆 Tournaments & Leaderboards",
+  "⭐ Ratings & Trust Signals",
+  "📱 Mobile App Expansion",
+  "🔔 Smart Notifications"
+];
+
+const fadeIn = {
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.22 },
+  transition: { duration: 0.5 }
+};
+
+function SectionIntro({
+  tag,
+  title,
+  copy
+}: {
+  tag: string;
+  title: ReactNode;
+  copy: string;
+}) {
+  return (
+    <div className="landing-section-intro">
+      <span className="landing-section-tag">{tag}</span>
+      <h2>{title}</h2>
+      <p>{copy}</p>
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
-    <div className="stack-xl">
-      <section className="hero-grid">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="hero-copy glass-card"
-        >
-          <span className="eyebrow">Neighborhood Play Network</span>
-          <h1>Find local partners for every indoor and outdoor game.</h1>
-          <p>
-            PlayCircle turns nearby homes, society clubhouses, and local grounds
-            into an active recreation network for chess, carrom, cards,
-            badminton, table tennis, and more.
-          </p>
-          <div className="hero-actions">
-            <Link href="/register" className="button button-primary">
-              Start your profile
-            </Link>
-            <Link href="/discover" className="button button-secondary">
-              Explore players
-            </Link>
-            <Link href="/community" className="button button-secondary">
-              View communities
-            </Link>
-          </div>
-          <div className="chip-row">
-            <span className="chip">Indoor + outdoor games</span>
-            <span className="chip">Local community focused</span>
-            <span className="chip">Fast matchmaking flow</span>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="hero-visual glass-card"
-        >
-          <div className="radar">
-            <div className="radar-ring ring-1" />
-            <div className="radar-ring ring-2" />
-            <div className="radar-ring ring-3" />
-            <div className="radar-dot dot-1">Chess</div>
-            <div className="radar-dot dot-2">Badminton</div>
-            <div className="radar-dot dot-3">Carrom</div>
-            <div className="radar-core">
-              <span>Smart local discovery</span>
-              <strong>Under 3s search goal</strong>
+    <div className="landing-page">
+      <section className="landing-hero" aria-labelledby="landing-title">
+        <div className="landing-ghost">PLAY</div>
+        <div className="landing-hero-grid">
+          <div className="landing-hero-copy">
+            <span className="landing-tag">Neighborhood Play Network</span>
+            <h1 id="landing-title">
+              Find Local
+              <br />
+              <em>Game</em>
+              <br />
+              Partners.
+            </h1>
+            <p>
+              PlayCircle turns nearby homes, society clubhouses, and local
+              grounds into an active recreation network — chess, carrom,
+              badminton, table tennis, and more.
+            </p>
+            <div className="landing-actions">
+              <Link href="/register" className="button button-primary">
+                Start Your Profile ↗
+              </Link>
+              <Link href="/discover" className="button button-secondary">
+                Explore Players
+              </Link>
+            </div>
+            <div className="landing-pills" aria-label="Popular games">
+              {["♟ Chess", "🏸 Badminton", "🎯 Carrom", "🏓 Table Tennis", "🃏 Cards"].map(
+                (item) => (
+                  <span className="landing-pill" key={item}>
+                    {item}
+                  </span>
+                )
+              )}
             </div>
           </div>
-        </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 28 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="landing-sports-stack"
+          >
+            {sports.map((sport) => (
+              <article className="landing-sport-card" key={sport.name}>
+                <div className="landing-sport-icon">{sport.icon}</div>
+                <div>
+                  <h2>{sport.name}</h2>
+                  <p>{sport.count}</p>
+                </div>
+                <span>{sport.badge}</span>
+              </article>
+            ))}
+          </motion.div>
+        </div>
       </section>
 
-      <section className="metrics-grid">
-        {metrics.map((metric, index) => (
-          <motion.article
-            key={metric.label}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 * index }}
-            className="metric-card glass-card"
-          >
-            <strong>{metric.value}</strong>
-            <span>{metric.label}</span>
-          </motion.article>
+      <section className="landing-stats" aria-label="PlayCircle statistics">
+        {stats.map(([value, label]) => (
+          <article className="landing-stat" key={label}>
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </article>
         ))}
       </section>
 
-      <section className="content-grid">
-        <div className="glass-card">
-          <SectionTitle
-            eyebrow="Why This Works"
-            title="Built around the exact product goals in your documentation"
-            description="Every section supports easier partner discovery, stronger community bonding, and lower coordination effort."
-          />
-          <div className="card-stack">
-            {featurePillars.map((item) => (
-              <article key={item.title} className="mini-card">
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
+      <motion.section {...fadeIn} className="landing-section">
+        <SectionIntro
+          tag="Why This Works"
+          title={
+            <>
+              Built Around
+              <br />
+              Real Goals.
+            </>
+          }
+          copy="Every section supports easier partner discovery, stronger community bonding, and lower coordination effort."
+        />
+        <div className="landing-features-grid">
+          {features.map((feature, index) => (
+            <article className="landing-feature-card" key={feature.title}>
+              <strong>{String(index + 1).padStart(2, "0")}</strong>
+              <div>{feature.icon}</div>
+              <h3>{feature.title}</h3>
+              <p>{feature.copy}</p>
+            </article>
+          ))}
         </div>
+      </motion.section>
 
-        <div className="glass-card">
-          <SectionTitle
-            eyebrow="Platform Coverage"
-            title="A fuller feature map, not just a landing page"
-            description="The product is structured into distinct experiences so each role can actually use it."
-          />
-          <div className="timeline">
-            {productSections.map((step) => (
-              <div key={step} className="timeline-item">
-                <span />
-                <p>{step}</p>
+      <motion.section {...fadeIn} className="landing-section" id="discover">
+        <SectionIntro
+          tag="Featured Players"
+          title={
+            <>
+              Profiles That
+              <br />
+              Match Fast.
+            </>
+          }
+          copy="Profiles surface games, skill level, and availability clearly — so you can decide whether a nearby match is a good fit in seconds."
+        />
+        <div className="landing-card-grid">
+          {featuredPlayers.map((player) => (
+            <article className="landing-player-card" key={player.name}>
+              <div className={`landing-avatar avatar-${player.levelClass}`}>
+                {player.initials}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="content-grid">
-        <div className="glass-card">
-          <SectionTitle
-            eyebrow="Featured Players"
-            title="Profiles surface games, level, and availability clearly"
-            description="This helps players decide quickly whether a nearby match is a good fit."
-          />
-          <div className="card-stack">
-            {players.map((player) => (
-              <article key={player.id} className="mini-card">
-                <div className="mini-card-header">
-                  <h3>{player.name}</h3>
-                  <span>{player.skill}</span>
-                </div>
-                <p>{player.location}</p>
-                <div className="chip-row">
-                  {player.games.map((game) => (
-                    <span key={game} className="chip">
-                      {game}
-                    </span>
-                  ))}
-                </div>
-                <small>{player.availability}</small>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className="glass-card">
-          <SectionTitle
-            eyebrow="Open Requests"
-            title="Request-response flow stays lightweight for phase 1"
-            description="Accept, decline, and history tracking are all available without building a full chat product."
-          />
-          <div className="table-list">
-            {playRequests.map((request) => (
-              <div key={request.id} className="row-card">
-                <div>
-                  <strong>{request.game}</strong>
-                  <p>
-                    {request.requester} | {request.slot}
-                  </p>
-                </div>
-                <div>
-                  <p>{request.venue}</p>
-                  <span className={`status status-${request.status.toLowerCase()}`}>
-                    {request.status}
+              <h3>{player.name}</h3>
+              <span className={`landing-level level-${player.levelClass}`}>
+                {player.level}
+              </span>
+              <p>📍 {player.location}</p>
+              <div className="landing-pills">
+                {player.games.map((game) => (
+                  <span className="landing-game-tag" key={game}>
+                    {game}
                   </span>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+              <small>{player.time}</small>
+            </article>
+          ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="content-grid">
-        <div className="glass-card">
-          <SectionTitle
-            eyebrow="Community Layer"
-            title="Societies and local groups can scale the network"
-            description="Recurring sessions and organizer ownership help the platform grow from one-to-one matching into a neighborhood habit."
-          />
-          <div className="card-stack">
-            {communities.map((community) => (
-              <article key={community.id} className="mini-card">
-                <h3>{community.name}</h3>
-                <p>{community.focus}</p>
-                <small>{community.area}</small>
-                <div className="split-line">
-                  <span>{community.members} members</span>
-                  <span>{community.nextSession}</span>
-                </div>
-              </article>
-            ))}
-          </div>
+      <motion.section {...fadeIn} className="landing-section" id="requests">
+        <SectionIntro
+          tag="Open Requests"
+          title={
+            <>
+              Lightweight
+              <br />
+              Request Flow.
+            </>
+          }
+          copy="Accept, decline, and track history — all without building a full chat product. Phase 1 keeps coordination simple."
+        />
+        <div className="landing-card-grid">
+          {requests.map((request) => (
+            <article className="landing-request-card" key={request.game}>
+              <div className="landing-request-top">
+                <h3>{request.game}</h3>
+                <span className={`request-${request.status.toLowerCase()}`}>
+                  {request.status}
+                </span>
+              </div>
+              <strong>{request.player}</strong>
+              <p>{request.time}</p>
+              <small>📍 {request.venue}</small>
+            </article>
+          ))}
         </div>
+      </motion.section>
 
-        <div className="glass-card">
-          <SectionTitle
-            eyebrow="Future Ready"
-            title="Built with room for AI recommendations and mobile expansion"
-            description="The structure now supports future additions like ratings, chat, AI partner matching, and leaderboards."
-          />
-          <div className="card-stack">
-            {[
-              "AI-based partner recommendations",
-              "In-app messaging and notifications",
-              "Tournament and leaderboard modules",
-              "Ratings, reviews, and trust signals"
-            ].map((item) => (
-              <article key={item} className="mini-card">
-                <p>{item}</p>
-              </article>
-            ))}
-          </div>
+      <motion.section {...fadeIn} className="landing-section" id="community">
+        <SectionIntro
+          tag="Community Layer"
+          title={
+            <>
+              Societies That
+              <br />
+              Scale the Network.
+            </>
+          }
+          copy="Recurring sessions and organizer ownership help the platform grow from one-to-one matching into a full neighborhood habit."
+        />
+        <div className="landing-card-grid">
+          {communities.map((community) => (
+            <article className="landing-community-card" key={community.name}>
+              <div className="landing-community-icon">{community.icon}</div>
+              <h3>{community.name}</h3>
+              <p>{community.focus}</p>
+              <small>📍 {community.location}</small>
+              <div className="landing-community-meta">
+                <span>👥 {community.members}</span>
+                <span>{community.nextSession}</span>
+              </div>
+            </article>
+          ))}
         </div>
-      </section>
+      </motion.section>
+
+      <motion.section {...fadeIn} className="landing-cta" id="future">
+        <span className="landing-section-tag">Future Ready</span>
+        <h2>
+          Built for
+          <br />
+          What&apos;s Coming Next.
+        </h2>
+        <p>
+          The structure now supports future additions like AI-powered
+          recommendations, ratings, chat, and full leaderboards.
+        </p>
+        <div className="landing-future-list">
+          {futureItems.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+        <Link href="/register" className="button button-primary">
+          Get Early Access →
+        </Link>
+      </motion.section>
     </div>
   );
 }

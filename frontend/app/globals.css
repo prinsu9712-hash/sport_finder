@@ -843,3 +843,577 @@ body.light-theme .game-chip {
     grid-template-columns: 1fr;
   }
 }
+
+.landing-page {
+  --landing-surface: #0e1022;
+  --landing-card: #141829;
+  --landing-border: #1e2240;
+  --landing-muted: #5a6080;
+  --landing-soft: #9aa0be;
+  display: grid;
+  gap: 0;
+  color: #eceef5;
+}
+
+.landing-hero {
+  position: relative;
+  min-height: calc(100vh - 7rem);
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  padding: clamp(3rem, 7vw, 7rem) 0;
+}
+
+.landing-ghost {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.035);
+  font-family: var(--font-condensed), sans-serif;
+  font-size: clamp(9rem, 23vw, 21rem);
+  font-weight: 700;
+  line-height: 0.8;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.landing-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 23rem);
+  gap: clamp(2rem, 6vw, 4.5rem);
+  align-items: center;
+}
+
+.landing-hero-copy h1,
+.landing-section-intro h2,
+.landing-cta h2 {
+  margin: 0;
+  font-family: var(--font-condensed), sans-serif;
+  font-size: clamp(4rem, 9vw, 8rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.landing-hero-copy,
+.landing-sports-stack,
+.landing-section,
+.landing-cta {
+  min-width: 0;
+}
+
+.landing-hero-copy h1 em {
+  color: var(--lime);
+  font-style: italic;
+}
+
+.landing-hero-copy p {
+  max-width: 34rem;
+  margin: 1.5rem 0 0;
+  color: var(--landing-soft);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.landing-tag,
+.landing-section-tag {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: fit-content;
+  margin-bottom: 1.6rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(205, 255, 0, 0.24);
+  border-radius: 999px;
+  background: rgba(205, 255, 0, 0.09);
+  color: var(--lime);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.landing-tag::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0.75rem var(--lime);
+}
+
+.landing-actions,
+.landing-pills,
+.landing-future-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.landing-actions {
+  margin: 2.2rem 0 2rem;
+}
+
+.landing-page .button {
+  border-radius: 999px;
+  padding-inline: 1.8rem;
+}
+
+.landing-pill,
+.landing-game-tag,
+.landing-future-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid var(--landing-border);
+  border-radius: 999px;
+  background: var(--landing-surface);
+  color: var(--landing-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.landing-sports-stack {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.landing-sport-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  align-items: center;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--landing-border);
+  border-radius: 0.9rem;
+  background: var(--landing-card);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.landing-sport-card:nth-child(2) {
+  margin-left: 1.25rem;
+}
+
+.landing-sport-card:hover {
+  border-color: var(--lime);
+  transform: translateX(-0.25rem);
+}
+
+.landing-sport-icon,
+.landing-community-icon {
+  display: grid;
+  width: 2.9rem;
+  height: 2.9rem;
+  place-items: center;
+  border-radius: 0.7rem;
+  background: rgba(205, 255, 0, 0.1);
+  font-size: 1.35rem;
+}
+
+.landing-sport-card h2 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.landing-sport-card p,
+.landing-section-intro p,
+.landing-feature-card p,
+.landing-player-card p,
+.landing-request-card p,
+.landing-community-card p,
+.landing-cta p {
+  margin: 0;
+  color: var(--landing-soft);
+  line-height: 1.7;
+}
+
+.landing-sport-card span {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(205, 255, 0, 0.12);
+  color: var(--lime);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.landing-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 -1.5rem;
+  border-block: 1px solid var(--landing-border);
+  background: var(--landing-surface);
+}
+
+.landing-stat {
+  padding: 2.2rem 1rem;
+  border-right: 1px solid var(--landing-border);
+  text-align: center;
+}
+
+.landing-stat:last-child {
+  border-right: 0;
+}
+
+.landing-stat strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--lime);
+  font-family: var(--font-condensed), sans-serif;
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 0.85;
+}
+
+.landing-stat span {
+  color: var(--landing-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.landing-section {
+  padding: clamp(4.5rem, 9vw, 7rem) 0;
+  border-bottom: 1px solid var(--landing-border);
+}
+
+.landing-section-intro {
+  max-width: 42rem;
+  margin-bottom: 3.4rem;
+}
+
+.landing-section-intro h2,
+.landing-cta h2 {
+  font-size: clamp(3rem, 6vw, 5.4rem);
+}
+
+.landing-section-intro p,
+.landing-cta p {
+  max-width: 36rem;
+  margin-top: 1rem;
+}
+
+.landing-features-grid,
+.landing-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--landing-border);
+  border-radius: 0.9rem;
+  background: var(--landing-border);
+}
+
+.landing-card-grid {
+  gap: 1rem;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+.landing-feature-card,
+.landing-player-card,
+.landing-request-card,
+.landing-community-card {
+  position: relative;
+  min-width: 0;
+  padding: 1.8rem;
+  border: 1px solid var(--landing-border);
+  border-radius: 0.9rem;
+  background: var(--landing-card);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.landing-feature-card {
+  border: 0;
+  border-radius: 0;
+}
+
+.landing-feature-card:hover,
+.landing-player-card:hover,
+.landing-request-card:hover,
+.landing-community-card:hover {
+  border-color: rgba(205, 255, 0, 0.45);
+  background: #1a1f35;
+  transform: translateY(-0.2rem);
+}
+
+.landing-feature-card strong {
+  display: block;
+  margin-bottom: 1.1rem;
+  color: rgba(205, 255, 0, 0.15);
+  font-family: var(--font-condensed), sans-serif;
+  font-size: 4rem;
+  line-height: 0.85;
+}
+
+.landing-feature-card div {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(205, 255, 0, 0.2);
+  border-radius: 0.7rem;
+  background: rgba(205, 255, 0, 0.1);
+  font-size: 1.35rem;
+}
+
+.landing-feature-card h3,
+.landing-player-card h3,
+.landing-request-card h3,
+.landing-community-card h3 {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-condensed), sans-serif;
+  font-size: 1.65rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.landing-avatar {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  font-family: var(--font-condensed), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.avatar-intermediate {
+  background: rgba(205, 255, 0, 0.15);
+  color: var(--lime);
+}
+
+.avatar-advanced {
+  background: rgba(255, 122, 0, 0.15);
+  color: var(--orange);
+}
+
+.avatar-beginner {
+  background: rgba(100, 140, 255, 0.15);
+  color: #648cff;
+}
+
+.landing-level,
+.landing-request-top span {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.level-intermediate,
+.request-pending {
+  background: rgba(255, 193, 0, 0.12);
+  color: #ffc100;
+}
+
+.level-advanced,
+.request-declined {
+  background: rgba(255, 70, 70, 0.12);
+  color: #ff7070;
+}
+
+.level-beginner,
+.request-accepted {
+  background: rgba(0, 210, 100, 0.12);
+  color: #00d264;
+}
+
+.landing-player-card .landing-pills {
+  margin: 1rem 0;
+}
+
+.landing-player-card small,
+.landing-request-card small,
+.landing-community-card small {
+  display: block;
+  color: var(--landing-muted);
+}
+
+.landing-request-top {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.landing-request-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.landing-request-card small {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--landing-border);
+}
+
+.landing-community-icon {
+  margin-bottom: 1.2rem;
+}
+
+.landing-community-meta {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--landing-border);
+  color: var(--landing-soft);
+  font-size: 0.82rem;
+}
+
+.landing-cta {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  overflow: hidden;
+  margin: 0 -1.5rem -4rem;
+  padding: clamp(4.5rem, 9vw, 7rem) 1.5rem;
+  border-top: 1px solid var(--landing-border);
+  background: var(--landing-surface);
+  text-align: center;
+}
+
+.landing-cta::before {
+  content: "";
+  position: absolute;
+  width: min(38rem, 90vw);
+  height: min(38rem, 90vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(205, 255, 0, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.landing-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-cta p {
+  margin: 1rem auto 2.2rem;
+}
+
+.landing-future-list {
+  justify-content: center;
+  max-width: 54rem;
+  margin-bottom: 2.6rem;
+}
+
+body.light-theme .landing-page {
+  --landing-surface: #f7f8ef;
+  --landing-card: rgba(255, 255, 255, 0.94);
+  --landing-border: #d7dfae;
+  --landing-muted: #5f6847;
+  --landing-soft: #586144;
+  color: #171b12;
+}
+
+body.light-theme .landing-ghost {
+  color: rgba(23, 27, 18, 0.055);
+}
+
+body.light-theme .landing-sport-card:hover,
+body.light-theme .landing-feature-card:hover,
+body.light-theme .landing-player-card:hover,
+body.light-theme .landing-request-card:hover,
+body.light-theme .landing-community-card:hover {
+  background: #ffffff;
+}
+
+@media (max-width: 980px) {
+  .landing-hero-grid,
+  .landing-features-grid,
+  .landing-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-sports-stack {
+    display: none;
+  }
+
+  .landing-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .nav {
+    display: none;
+  }
+
+  .auth-actions {
+    align-items: flex-start;
+  }
+
+  .landing-hero {
+    min-height: auto;
+    padding-top: 2.5rem;
+  }
+
+  .landing-hero-copy h1 {
+    font-size: clamp(3rem, 16vw, 4.15rem);
+  }
+
+  .landing-stats {
+    grid-template-columns: 1fr;
+    margin-inline: 0;
+  }
+
+  .landing-cta {
+    margin-inline: 0;
+  }
+
+  .landing-actions {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+    max-width: 22rem;
+  }
+
+  .landing-page .button {
+    width: 100%;
+    max-width: 22rem;
+  }
+
+  .landing-pills {
+    align-items: stretch;
+  }
+
+  .landing-pill,
+  .landing-game-tag {
+    justify-content: center;
+  }
+
+  .landing-stat {
+    border-right: 0;
+    border-bottom: 1px solid var(--landing-border);
+  }
+
+  .landing-stat:last-child {
+    border-bottom: 0;
+  }
+
+  .landing-request-top,
+  .landing-community-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
